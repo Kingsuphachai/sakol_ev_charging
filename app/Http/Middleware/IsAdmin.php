@@ -17,7 +17,6 @@ class IsAdmin
     public function handle(Request $request, Closure $next): Response
     {
         if (auth()->check() && auth()->user()->role_id == 2) {
-            // ถ้าเป็น admin → ผ่านเข้าไป
             return $next($request);
         }
 
