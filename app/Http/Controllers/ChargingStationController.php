@@ -8,9 +8,62 @@ use App\Models\Subdistrict;
 use App\Models\ChargerType;
 use App\Models\StationStatus;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class ChargingStationController extends Controller
 {
+    public function apiList()
+{
+    // ดึงเฉพาะสถานีที่มีพิกัด และสถานะที่ให้แสดง (is_visible = 1)
+    $stations = \App\Models\ChargingStation::query()
+        ->with(['status'])
+        ->whereNotNull('latitude')
+        ->whereNotNull('longitude')
+        ->whereHas('status', fn($q) => $q->where('is_visible', 1))
+        ->get(['id','name','address','latitude','longitude','status_id']);
+
+    return $stations->map(fn($s) => [
+        'id'      => $s->id,
+        'name'    => $s->name,
+        'address' => $s->address,
+        'lat'     => (float) $s->latitude,
+        'lng'     => (float) $s->longitude,
+        'status'  => $s->status?->name ?? '-',
+    ]);
+}
+
+        /** หน้าแผนที่รวม */
+    public function map()
+    {
+        return view('stations.map');
+    }
+
+    /** API ส่งพิกัดสถานีทั้งหมด (เฉพาะที่มี lat/lng) */
+    public function apiStations(): JsonResponse
+    {
+        $stations = ChargingStation::query()
+            ->with(['status:id,name', 'district:id,name', 'subdistrict:id,name'])
+            ->whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->get([
+                'id','name','address','latitude','longitude',
+                'status_id','district_id','subdistrict_id'
+            ])
+            ->map(function ($s) {
+                return [
+                    'id' => $s->id,
+                    'name' => $s->name,
+                    'address' => $s->address,
+                    'lat' => (float) $s->latitude,
+                    'lng' => (float) $s->longitude,
+                    'status' => $s->status->name ?? '-',
+                    'district' => $s->district->name ?? null,
+                    'subdistrict' => $s->subdistrict->name ?? null,
+                ];
+            });
+
+        return response()->json($stations);
+    }
     /**
      * แสดงรายการสถานี + ค้นหา/กรอง
      */

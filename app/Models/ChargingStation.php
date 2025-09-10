@@ -2,23 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ChargingStation extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
-        'name', 'address', 'subdistrict_id', 'district_id',
-        'status_id', 'latitude', 'longitude', 'operating_hours', 'created_by'
+        'name','address','subdistrict_id','district_id','status_id',
+        'latitude','longitude','operating_hours','created_by'
     ];
 
+    // ✅ Relations
     public function status()
     {
-        return $this->belongsTo(StationStatus::class, 'status_id');
-    }
-
-    public function subdistrict()
-    {
-        return $this->belongsTo(Subdistrict::class);
+        return $this->belongsTo(StationStatus::class,'status_id','id');
     }
 
     public function district()
@@ -26,9 +25,19 @@ class ChargingStation extends Model
         return $this->belongsTo(District::class);
     }
 
+    public function subdistrict()
+    {
+        return $this->belongsTo(Subdistrict::class);
+    }
+
     public function chargers()
     {
-        return $this->belongsToMany(ChargerType::class, 'station_charger_types', 'station_id', 'charger_type_id');
+        return $this->belongsToMany(
+            ChargerType::class,
+            'station_charger_types',
+            'station_id',
+            'charger_type_id'
+        );
     }
 
     public function reports()
@@ -38,6 +47,6 @@ class ChargingStation extends Model
 
     public function creator()
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(User::class,'created_by');
     }
 }
