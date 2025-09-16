@@ -6,6 +6,12 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow sm:rounded-lg p-6">
+                <div class="mb-4">
+                    <a href="{{ route('admin.stations.create') }}" class="bg-gray-100 p-2 border">
+                        + เพิ่มสถานี
+                    </a>
+                </div>
+
                 <table class="w-full border">
                     <thead>
                         <tr class="bg-gray-100">

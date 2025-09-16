@@ -10,15 +10,15 @@
 
       <!-- ส่วนสถิติ -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded shadow">
+        <div class="bg-white p-6  shadow">
           <div class="text-gray-500">จำนวนสถานีทั้งหมด</div>
           <div class="text-3xl font-bold">{{ $stats['stations_total'] ?? '-' }}</div>
         </div>
-        <div class="bg-white p-6 rounded shadow">
+        <div class="bg-white p-6  shadow">
           <div class="text-gray-500">จำนวนผู้ใช้ทั้งหมด</div>
           <div class="text-3xl font-bold">{{ $stats['users_total'] ?? '-' }}</div>
         </div>
-        <div class="bg-white p-6 rounded shadow">
+        <div class="bg-white p-6  shadow">
           <div class="text-gray-500">จำนวน Admin</div>
           <div class="text-3xl font-bold">{{ $stats['admins'] ?? '-' }}</div>
         </div>
@@ -34,12 +34,12 @@
       <!-- ลิงก์แก้จัดการณ์ -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <a href="{{ route('admin.stations.index') }}"
-           class="block bg-indigo-600 text-white p-6 rounded-lg shadow hover:bg-indigo-700 transition">
+           class="block bg-gray-800 text-white p-6  shadow hover:bg-gray-900 transition">
           <div class="text-lg font-semibold">จัดการสถานี</div>
           <div class="mt-1 text-gray-200 text-sm">เพิ่ม แก้ไข หรือลบสถานี</div>
         </a>
         <a href="{{ route('admin.users') }}"
-           class="block bg-gray-800 text-white p-6 rounded-lg shadow hover:bg-gray-900 transition">
+           class="block bg-gray-800 text-white p-6  shadow hover:bg-gray-900 transition">
           <div class="text-lg font-semibold">จัดการผู้ใช้</div>
           <div class="mt-1 text-gray-200 text-sm">แก้ไขข้อมูลสมาชิก</div>
         </a>
